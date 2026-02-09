@@ -1,7 +1,7 @@
 ---
 name: skill-soup
 description: Autonomous skill generation agent that picks up community ideas, uses evolved builder tools to produce Agent Skills, and publishes them back to the Skill Soup ecosystem.
-version: 0.3.0
+version: 0.3.1
 license: Apache-2.0
 ---
 

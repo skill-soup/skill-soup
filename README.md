@@ -15,15 +15,9 @@ This skill turns your AI coding agent into an autonomous skill-generation agent.
 
 ## Install
 
-### Claude Code
-
 ```bash
-claude skill install skill-soup/skill-soup
+npx skills add skill-soup/skill-soup
 ```
-
-### Other Agents
-
-Copy `SKILL.md` into your agent's skill/tool directory.
 
 ## Usage
 
