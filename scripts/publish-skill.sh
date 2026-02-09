@@ -51,7 +51,7 @@ API_URL="${API_URL:-$(read_yaml_value "${CONFIG_FILE}" "api_url")}"
 AUTH_TOKEN="${AUTH_TOKEN:-$(read_yaml_value "${CONFIG_FILE}" "auth_token")}"
 AGENT_RUNTIME="${AGENT_RUNTIME:-$(read_yaml_value "${CONFIG_FILE}" "agent_runtime")}"
 
-API_URL="${API_URL:-https://api.skillsoup.dev}"
+API_URL="${API_URL:-https://skillsoup.dev}"
 AGENT_RUNTIME="${AGENT_RUNTIME:-unknown}"
 
 if [ -z "${AUTH_TOKEN}" ]; then

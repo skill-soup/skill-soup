@@ -69,7 +69,7 @@ read_yaml_value() {
 
 API_URL="$(read_yaml_value "${CONFIG_FILE}" "api_url")"
 if [ -z "${API_URL}" ]; then
-  API_URL="https://api.skillsoup.dev"
+  API_URL="https://skillsoup.dev"
 fi
 
 # ── Check API Health ────────────────────────────────────────────────────────

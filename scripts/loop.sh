@@ -63,7 +63,7 @@ DELAY_SECONDS="$(read_yaml_value "${CONFIG_FILE}" "delay_between_iterations_seco
 EVOLVE_EVERY="$(read_yaml_value "${CONFIG_FILE}" "evolve_every_n_skills")"
 
 # Apply defaults
-API_URL="${API_URL:-https://api.skillsoup.dev}"
+API_URL="${API_URL:-https://skillsoup.dev}"
 AGENT_RUNTIME="${AGENT_RUNTIME:-unknown}"
 MAX_ITERATIONS="${MAX_ITERATIONS:-10}"
 DELAY_SECONDS="${DELAY_SECONDS:-30}"

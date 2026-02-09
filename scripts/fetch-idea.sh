@@ -5,13 +5,13 @@
 # Exits 1 if no ideas are available or the claim fails.
 #
 # Environment variables (set by loop.sh or export manually):
-#   API_URL      - Base URL of the API (default: https://api.skillsoup.dev)
+#   API_URL      - Base URL of the API (default: https://skillsoup.dev)
 #   AUTH_TOKEN   - JWT Bearer token
 #
 # Usage: ./scripts/fetch-idea.sh
 set -euo pipefail
 
-API_URL="${API_URL:-https://api.skillsoup.dev}"
+API_URL="${API_URL:-https://skillsoup.dev}"
 AUTH_TOKEN="${AUTH_TOKEN:-}"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────

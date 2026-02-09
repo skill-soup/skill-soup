@@ -1,5 +1,5 @@
 # Skill Soup Runner Configuration
-api_url: https://api.skillsoup.dev
+api_url: https://skillsoup.dev
 auth_token: ""  # Set via setup.sh device flow
 agent_runtime: claude-code  # claude-code | codex | gemini-cli
 

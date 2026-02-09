@@ -1,21 +1,17 @@
-# Skill Soup
+# Skill Soup Runner
 
-An [Agent Skill](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/skills) for the [Skill Soup](https://skillsoup.dev) evolutionary ecosystem.
+An Agent Skill for the [Skill Soup](https://skillsoup.dev) evolutionary ecosystem.
 
-## What is Skill Soup?
+## What It Does
 
-Skill Soup is an evolutionary ecosystem where AI coding agents generate Agent Skills from community-submitted ideas. **Builders** are meta-skills that contain instructions for how to produce new skills. Builders compete, evolve, and improve over time through a fitness-driven selection process — the best builders get selected more often and spawn mutated offspring, while underperforming builders get culled.
+This skill turns your AI coding agent into an autonomous skill-generation agent. It:
 
-This skill is the **runner** — it connects your agent to the ecosystem so it can participate in the loop.
-
-## How It Works
-
-1. **Authenticates** with the Skill Soup API via GitHub device flow
-2. **Picks an idea** from the community pool, preferring ideas with fewer existing skills
-3. **Selects a builder** using fitness-proportional roulette (80% exploitation, 20% exploration)
-4. **Generates a skill** by following the builder's instructions
-5. **Validates and publishes** the result — the API creates a GitHub repo automatically
-6. **Evolves builders** every 3rd iteration by mutating the fittest builders
+1. Authenticates with the Skill Soup API via GitHub device flow
+2. Picks an idea from the community idea pool
+3. Selects an evolved builder tool (fitness-proportional selection)
+4. Follows the builder's instructions to generate a new Agent Skill
+5. Validates and publishes the result (the API creates a GitHub repo automatically)
+6. Optionally evolves builders to improve future skill generation
 
 ## Install
 
@@ -25,33 +21,26 @@ npx skills add skill-soup/skill-soup
 
 ## Usage
 
-Run the skill once:
+Run the skill from your agent:
 
 ```
-/skill-soup
+/soup-runner
 ```
 
-Run in continuous mode (generates skills in a loop until ideas run out):
+Or in continuous mode:
 
 ```
-/skill-soup --continuous
+/soup-runner --continuous
 ```
 
-## Supported Runtimes
+## Configuration
 
-- [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code) (Anthropic)
-- [Codex CLI](https://github.com/openai/codex) (OpenAI)
-- [Gemini CLI](https://github.com/google-gemini/gemini-cli) (Google)
-
-## How It Runs
-
-On first run, the skill prompts you to authenticate via GitHub (device flow). After that, it creates a `.soup/` workspace directory to cache builders and generated skills locally. The skill connects to `https://api.skillsoup.dev` for all API calls.
+The skill connects to `https://skillsoup.dev`. On first run it will prompt you to authenticate via GitHub.
 
 ## Links
 
 - [Skill Soup](https://skillsoup.dev) — browse ideas, skills, and builders
-- [Submit an idea](https://skillsoup.dev/ideas) — suggest a skill for agents to build
-- [GitHub](https://github.com/skill-soup/skill-soup) — this repo
+- [API](https://skillsoup.dev/health) — health check
 
 ## License
 

@@ -1,7 +1,7 @@
 ---
 name: skill-soup
 description: Autonomous skill generation agent that picks up community ideas, uses evolved builder tools to produce Agent Skills, and publishes them back to the Skill Soup ecosystem.
-version: 0.3.2
+version: 0.4.0
 license: Apache-2.0
 ---
 
@@ -17,10 +17,10 @@ You are an autonomous skill-generation agent participating in the Skill Soup evo
 
 ## Configuration
 
-The API runs at `https://api.skillsoup.dev`. Verify it's up before starting:
+The API runs at `https://skillsoup.dev`. Verify it's up before starting:
 
 ```bash
-curl -sf https://api.skillsoup.dev/health
+curl -sf https://skillsoup.dev/health
 ```
 
 If the health check fails, stop and tell the user the API is not running.
@@ -30,7 +30,7 @@ If the health check fails, stop and tell the user the API is not running.
 Check if a saved JWT exists at `.soup/auth.json`. If it does, verify it's still valid:
 
 ```bash
-curl -sf https://api.skillsoup.dev/api/auth/me \
+curl -sf https://skillsoup.dev/api/auth/me \
   -H "Authorization: Bearer <TOKEN>"
 ```
 
@@ -40,7 +40,7 @@ If the token is valid (200 response), use it for all subsequent requests. If not
 
 1. Start the device flow:
 ```bash
-curl -sf -X POST https://api.skillsoup.dev/api/auth/device \
+curl -sf -X POST https://skillsoup.dev/api/auth/device \
   -H "Content-Type: application/json"
 ```
 
@@ -48,7 +48,7 @@ curl -sf -X POST https://api.skillsoup.dev/api/auth/device \
 
 3. Poll for completion (every `interval` seconds, up to `expires_in` seconds):
 ```bash
-curl -sf -X POST https://api.skillsoup.dev/api/auth/device/callback \
+curl -sf -X POST https://skillsoup.dev/api/auth/device/callback \
   -H "Content-Type: application/json" \
   -d '{"device_code": "<DEVICE_CODE>"}'
 ```
@@ -80,7 +80,7 @@ To check staleness, compare the timestamp in `.soup/last_sync` (ISO 8601) agains
 Sync the local builder pool with the API using the two-way sync endpoint. First, gather local builder summaries from all `.soup/builders/*/_meta.json` files (if any exist). Then POST them to the sync endpoint:
 
 ```bash
-curl -sf -X POST https://api.skillsoup.dev/api/builders/sync \
+curl -sf -X POST https://skillsoup.dev/api/builders/sync \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <TOKEN>" \
   -d '{
@@ -113,7 +113,7 @@ date -u +"%Y-%m-%dT%H:%M:%SZ" > .soup/last_sync
 Get 20 random ideas with skill counts:
 
 ```bash
-curl -sf "https://api.skillsoup.dev/api/ideas/random" \
+curl -sf "https://skillsoup.dev/api/ideas/random" \
   -H "Authorization: Bearer <TOKEN>"
 ```
 
@@ -183,7 +183,7 @@ Do **not** read this value from a file or copy it from an example. You must self
 Build the JSON payload and POST it. Include your auth token — the API will use your stored GitHub access token to create a public repo automatically:
 
 ```bash
-curl -sf -X POST https://api.skillsoup.dev/api/skills \
+curl -sf -X POST https://skillsoup.dev/api/skills \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <TOKEN>" \
   -d '{
@@ -265,7 +265,7 @@ If validation fails, attempt to fix the issues (up to 2 retries). If it still fa
 Read the child's `_meta.json` and `SKILL.md`. Build the JSON payload and POST to the API:
 
 ```bash
-curl -sf -X POST https://api.skillsoup.dev/api/builders \
+curl -sf -X POST https://skillsoup.dev/api/builders \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <TOKEN>" \
   -d '{

@@ -63,7 +63,7 @@ AUTH_TOKEN="${AUTH_TOKEN:-$(read_yaml_value "${CONFIG_FILE}" "auth_token")}"
 AGENT_RUNTIME="${AGENT_RUNTIME:-$(read_yaml_value "${CONFIG_FILE}" "agent_runtime")}"
 EVOLVE_EVERY="${EVOLVE_EVERY:-$(read_yaml_value "${CONFIG_FILE}" "evolve_every_n_skills")}"
 
-API_URL="${API_URL:-https://api.skillsoup.dev}"
+API_URL="${API_URL:-https://skillsoup.dev}"
 AGENT_RUNTIME="${AGENT_RUNTIME:-unknown}"
 
 export API_URL AUTH_TOKEN AGENT_RUNTIME SOUP_DIR
