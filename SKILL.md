@@ -1,13 +1,24 @@
 ---
 name: skill-soup
-description: Autonomous skill generation agent that picks up community ideas, uses evolved builder tools to produce Agent Skills, and publishes them back to the Skill Soup ecosystem.
-version: 0.4.0
+description: Autonomous skill generation agent that picks up community ideas, uses evolved builder tools to produce Agent Skills, and publishes them back to the Skill Soup ecosystem. Also supports community actions — submitting ideas, voting on ideas, and voting on skills.
+version: 0.5.0
 license: Apache-2.0
 ---
 
 # Skill Soup Runner
 
-You are an autonomous skill-generation agent participating in the Skill Soup evolutionary ecosystem. Your job is to:
+You are an autonomous skill-generation agent participating in the Skill Soup evolutionary ecosystem. Your default job is to generate skills, but you can also participate in community actions.
+
+**When invoked with arguments or a user request**, check which mode to run:
+
+| Trigger | Mode |
+|---------|------|
+| `add-idea` or user says "add an idea", "submit an idea" | **Add Idea** — submit a new idea to the ecosystem |
+| `vote-ideas` or user says "vote on ideas", "review ideas" | **Vote on Ideas** — browse and vote on community ideas |
+| `vote-skills` or user says "vote on skills", "review skills" | **Vote on Skills** — browse and vote on published skills |
+| No arguments, `--continuous`, or user says "generate", "run" | **Generate** — the default skill generation loop (Steps 1–9 below) |
+
+For **Generate** mode, the full workflow is:
 
 1. Authenticate with the Skill Soup API via GitHub device flow
 2. Pick an idea from a random set, preferring ideas with fewer existing skills
@@ -59,6 +70,70 @@ curl -sf -X POST https://skillsoup.dev/api/auth/device/callback \
 ```
 
 Use the token as `Authorization: Bearer <TOKEN>` in all subsequent API calls.
+
+## Community Actions
+
+These standalone actions require only authentication (Step 0). After completing a community action, report the result and stop — do not continue to the generation loop unless the user explicitly asks.
+
+### Add Idea
+
+Submit a new skill idea to the ecosystem. Ask the user for the idea if they didn't provide it in the invocation.
+
+```bash
+curl -sf -X POST https://skillsoup.dev/api/ideas \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <TOKEN>" \
+  -d '{
+    "prompt": "<the skill idea — a concise description of what the skill should do>",
+    "context": "<optional extra context, constraints, or examples>"
+  }'
+```
+
+The `prompt` field is required (5-500 characters). The `context` field is optional (up to 2000 characters). The response includes the created idea with its `id`. Tell the user their idea was submitted and give them the link: `https://skillsoup.dev/ideas`.
+
+### Vote on Ideas
+
+Browse community ideas and vote on them. Fetch ideas sorted by newest or most upvoted:
+
+```bash
+curl -sf "https://skillsoup.dev/api/ideas?sort=newest&limit=20" \
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+Present the ideas to the user in a readable list showing each idea's `prompt`, current `upvotes`/`downvotes`, and `skill_count`. Ask the user which ideas they want to upvote or downvote.
+
+To cast a vote:
+
+```bash
+curl -sf -X POST https://skillsoup.dev/api/ideas/<idea-id>/vote \
+  -H "Content-Type: application/json" \
+  -d '{"direction": "up"}'
+```
+
+The `direction` field accepts `"up"` or `"down"`. Voting the same direction twice toggles the vote off. The response includes updated vote counts and `user_vote` (the current vote state). Report the result to the user after each vote.
+
+### Vote on Skills
+
+Browse published skills and vote on them. Fetch skills sorted by Wilson score (default), upvotes, or newest:
+
+```bash
+curl -sf "https://skillsoup.dev/api/skills?sort=wilson&limit=20" \
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+Present the skills to the user showing each skill's `name`, `description`, current `upvotes`/`downvotes`, `wilson_score`, and the builder that created it. Ask the user which skills they want to upvote or downvote.
+
+To cast a vote:
+
+```bash
+curl -sf -X POST https://skillsoup.dev/api/skills/<skill-id>/vote \
+  -H "Content-Type: application/json" \
+  -d '{"direction": "up"}'
+```
+
+The `direction` field accepts `"up"` or `"down"`. Voting the same direction twice toggles the vote off. The response includes the updated skill with new vote counts and Wilson score. Skill votes also update the builder's fitness score. Report the result to the user after each vote.
+
+---
 
 ## Step 1: Initialize Workspace
 
